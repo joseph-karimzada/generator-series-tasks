@@ -1,0 +1,31 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{txfonts}
+
+\title{List of Series Task Types}
+\date{October 2025}
+
+\begin{document}
+\maketitle
+
+\section{Sum of Geometric Progressions}
+
+Find the sum of infinite series:
+$$\sum_{n=d}^{\infty} \frac{a^{i_a n + j_a} \pm b^{i_b n + j_b}}{c^n}$$
+
+The variables satisfy the following constraints:
+$$a^{i_a} < c, \quad b^{i_b} < c$$
+$$a, b \in [-5, 5] \setminus \{-1, 0, 1\}$$
+$$i_a, i_b \in [0, 3], \quad j_a, j_b \in [-2, 2]$$
+$$c \in [3, 9] \quad d \in [1, 4]$$
+
+\section{Telescoping Series}
+
+Find the sum of infinite series:
+$$\sum_{n=d}^{\infty} \frac{c}{(n+a)(n+b)}$$
+
+The variables satisfy the following constraints:
+$$\frac{|a-b|}{c} \in \mathbb{N} \quad d \in [1, 4]$$
+$$a, b \in [-4, 4], \quad c \in [1, 16]$$
+
+\end{document}

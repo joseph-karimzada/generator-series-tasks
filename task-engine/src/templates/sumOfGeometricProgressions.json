@@ -1,0 +1,13 @@
+{
+  "ranges": {
+    "a": [-5, -4, -3, -2, 2, 3, 4, 5],
+    "i_a": [0, 3],
+    "j_a": [-2, 2],
+    "b": [-5, -4, -3, -2, 2, 3, 4, 5],
+    "i_b": [0, 3],
+    "j_b": [-2, 2],
+    "c": [3, 9],
+    "d": [1, 4]
+  },
+    "latexPattern": "\\\\textbf{Task:} Find the sum of the first {n} terms of the geometric progression. \\\\\n\\\\textbf{Given:} a_1 = {a1}, r = {r}, n = {n}. \\\\\n\\\\textbf{Answer:} {answer}"
+}

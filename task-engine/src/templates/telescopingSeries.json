@@ -1,0 +1,9 @@
+{
+  "ranges": {
+    "a": [-4, 4],
+    "b": [-4, 4],
+    "c": [1, 16],
+    "d": [1, 4]
+  },
+  "latexPattern": "\\\\textbf{Task:} Find the sum of the first {n} terms of the geometric progression. \\\\\n\\\\textbf{Given:} a_1 = {a1}, r = {r}, n = {n}. \\\\\n\\\\textbf{Answer:} {answer}"
+}
