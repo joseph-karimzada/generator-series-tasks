@@ -1,11 +1,12 @@
 import { Task } from "../core/Task.js";
+import {pthL, pmL, mltL} from "../utils/latexHelpers.js";
 
 export class TelescopingSeriesTask extends Task {
 
     ranges = {
         "a": [-4, 4],
         "b": [-4, 4],
-        "c": [1, 16],
+        "c": [2, 16],
         "d": [1, 4]
     }
 
@@ -25,14 +26,14 @@ export class TelescopingSeriesTask extends Task {
             if (attempts > 1000) throw new Error("Could not generate valid variables.");
         } while (
             !(
-                Number.isInteger(Math.abs(a - b) / c) &&
-                Math.abs(a - b) / c > 0
+                Number.isInteger(c / Math.abs(a - b)) &&
+                c / Math.abs(a - b) > 0
             ));
         this.params = {a, b, c, d}
     }
     /** Converts task parameters into valid LaTeX text. */
     toLatex() {
         const {a, b, c, d} = this.params;
-        return `\\sum_{n=${d}}^{\\infty} \\frac{${c}}{(n ${a === 0 ? '' : a > 0 ? '+' + a : a})(n ${b === 0 ? '' : b > 0 ? '+' + b : b})}`;
+        return `\\sum_{n=${d}}^{\\infty}\\frac{${c}}{(n${pmL(a)})(n${pmL(b)})}`;
     }
 }

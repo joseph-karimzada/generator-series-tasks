@@ -1,5 +1,4 @@
 import crypto from "crypto";
-
 export class SeededRandom {
     constructor(seed) {
         const hash = crypto.createHash("sha256").update(seed).digest("hex");

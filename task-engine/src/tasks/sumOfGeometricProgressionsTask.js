@@ -1,4 +1,5 @@
 import { Task } from "../core/Task.js";
+import {pthL, pmL, mltL} from "../utils/latexHelpers.js";
 
 export class SumOfGeometricProgressionsTask extends Task {
 
@@ -41,7 +42,6 @@ export class SumOfGeometricProgressionsTask extends Task {
     /** Converts task parameters into valid LaTeX text. */
     toLatex() {
         const { a, b, c, d, i_a, i_b, j_a, j_b, pm } = this.params;
-        return `\\sum_{n=${d}}^{\\infty} \\frac{${a > 0 ? a : '('+a+')'}^{${i_a > 1 ? i_a : ''} n ${j_a === 0 ? '' : j_a > 0 ? '+' + j_a : j_a}} 
-        ${pm} ${b > 0 ? b : '('+b+')'}^{${i_b > 1 ? i_b : ''} n ${j_b === 0 ? '' : j_b > 0 ? '+' + j_b : j_b}}}{${c}^n}`;
+        return `\\sum_{n=${d}}^{\\infty}\\frac{${pthL(a)}^{${mltL(i_a)}n${pmL(j_a)}}${pm}${pthL(b)}^{${mltL(i_b)}n${pmL(j_b)}}}{${c}^n}`;
     }
 }
