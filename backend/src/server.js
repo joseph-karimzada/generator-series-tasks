@@ -6,6 +6,8 @@ import { TaskFactory } from "../../task-engine/src/index.js";
 const app = express();
 const PORT = 3001;
 
+TaskFactory.loadTemplates("task-engine/src/templates")
+
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -20,11 +22,12 @@ app.post("/api/generate", (req, res) => {
     try {
         const results = order.map(type => {
             const task = taskFactory.createTask(type);
-            task.generate();           // populate this.params
+            task.generateParams();           // populate this.params
             return {
                 type,
                 params: task.params,
-                latex: task.toLatex()
+                latex: task.renderQuestion(),
+                answer: task.computeAnswer()
             };
         });
 

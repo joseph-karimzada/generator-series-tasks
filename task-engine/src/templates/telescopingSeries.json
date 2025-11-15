@@ -1,9 +1,41 @@
 {
-  "ranges": {
-    "a": [-4, 4],
-    "b": [-4, 4],
-    "c": [1, 16],
-    "d": [1, 4]
+  "name": "telescoping-series",
+  "latex": "\\sum_{n=${n0}}^{\\infty}\\frac{${c}}{(n${pmL(a)})(n${pmL(b)})}",
+  "params": {
+    "n0": {
+      "type": "int",
+      "min": 1,
+      "max": 5
+    },
+    "a": {
+      "type": "int",
+      "min": -5,
+      "max": 0
+    },
+    "b": {
+      "type": "int",
+      "min": 1,
+      "max": 5
+    },
+    "c": {
+      "type": "int",
+      "min": 1,
+      "max": 10
+    }
   },
-  "latexPattern": "\\\\textbf{Task:} Find the sum of the first {n} terms of the geometric progression. \\\\\n\\\\textbf{Given:} a_1 = {a1}, r = {r}, n = {n}. \\\\\n\\\\textbf{Answer:} {answer}"
+  "constraints": [
+    {
+      "params": ["a", "b"],
+      "code": "a !== b"
+    },
+    {
+      "params": ["n0", "a"],
+      "code": "n0 + a > 0"
+    },
+    {
+      "params": ["n0", "b"],
+      "code": "n0 + b > 0"
+    }
+  ],
+  "answer": "c / (b - a) * (1 / (n0 + a) - 1 / (n0 + b))"
 }

@@ -92,6 +92,8 @@ function App() {
                             <pre>{JSON.stringify(task.params, null, 2)}</pre>
                             <strong>LaTeX:</strong>
                             <Latex expression={task.latex} />
+                            <strong>Answer:</strong>
+                            {task.answer}
                         </div>
                     ))}
                 </div>

@@ -1,13 +1,30 @@
 {
-  "ranges": {
-    "a": [-5, -4, -3, -2, 2, 3, 4, 5],
-    "i_a": [0, 3],
-    "j_a": [-2, 2],
-    "b": [-5, -4, -3, -2, 2, 3, 4, 5],
-    "i_b": [0, 3],
-    "j_b": [-2, 2],
-    "c": [3, 9],
-    "d": [1, 4]
+  "name": "sum-geometric-progressions",
+  "latex": "\\sum_{n=${n0}}^{\\infty}\\frac{${pthL(a)}^{${mltL(i_a)}n${pmL(j_a)}}${pm}${pthL(b)}^{${mltL(i_b)}n${pmL(j_b)}}}{${c}^n}",
+  "params": {
+    "n0": {"type": "int", "min": 1, "max": 3},
+    "a": {"type": "int", "min": 2, "max": 5},
+    "b": {"type": "int", "min": 2, "max": 5},
+    "c": {"type": "int", "min": 3, "max": 10},
+    "i_a": {"type": "int", "min": 1, "max": 2},
+    "i_b": {"type": "int", "min": 1, "max": 2},
+    "j_a": {"type": "int", "min": -3, "max": 3},
+    "j_b": {"type": "int", "min": -3, "max": 3},
+    "pm": {"type": "choice", "values": ["+", "-"]}
   },
-    "latexPattern": "\\\\textbf{Task:} Find the sum of the first {n} terms of the geometric progression. \\\\\n\\\\textbf{Given:} a_1 = {a1}, r = {r}, n = {n}. \\\\\n\\\\textbf{Answer:} {answer}"
+  "constraints": [
+    {
+      "params": ["a", "i_a", "c"],
+      "code": "a**i_a < c"
+    },
+    {
+      "params": ["b", "i_b", "c"],
+      "code": "b**i_b < c"
+    },
+    {
+      "params": ["a", "b", "i_a", "i_b"],
+      "code": "a**i_a !== b**i_b"
+    }
+  ],
+  "answer": "pm === '+' ? (a**j_a / (c**n0 * (1 - a**i_a / c))) + (b**j_b / (c**n0 * (1 - b**i_b / c))) : (a**j_a / (c**n0 * (1 - a**i_a / c))) - (b**j_b / (c**n0 * (1 - b**i_b / c)))"
 }
