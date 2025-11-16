@@ -26,8 +26,7 @@ app.post("/api/generate", (req, res) => {
             return {
                 type,
                 params: task.params,
-                latex: task.renderQuestion(),
-                answer: task.computeAnswer()
+                latex: task.renderQuestion()
             };
         });
 

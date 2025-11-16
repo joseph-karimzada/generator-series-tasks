@@ -25,6 +25,5 @@
       "params": ["a", "b", "i_a", "i_b"],
       "code": "a**i_a !== b**i_b"
     }
-  ],
-  "answer": "pm === '+' ? (a**j_a / (c**n0 * (1 - a**i_a / c))) + (b**j_b / (c**n0 * (1 - b**i_b / c))) : (a**j_a / (c**n0 * (1 - a**i_a / c))) - (b**j_b / (c**n0 * (1 - b**i_b / c)))"
+  ]
 }
