@@ -1,11 +1,14 @@
 // task-engine/src/core/Task.js
 import {pmL, pthL, mltL} from "../utils/latexHelpers.js";
+import {ParameterFactory} from "./ParameterFactory.js";
 
 export class Task {
 
-    constructor(rng, template, taskText = "") {
+    static MAX_GENERATION_ATTEMPTS = 10000;
+
+    constructor(rng, template, lang) {
         this.rng = rng;
-        this.taskText = taskText;
+        this.lang = lang;
 
         this.params = null;
         this.question = null;
@@ -13,8 +16,10 @@ export class Task {
 
         this.template = template;
         if (!this.template) {
-            throw new Error(`Template not found}`);
+            throw new Error(`Template not found`);
         }
+
+        this.text = this.template.text[this.lang];
     }
 
     // ————————————————————————————————————————
@@ -22,12 +27,12 @@ export class Task {
     // ————————————————————————————————————————
 
     generateParams() {
-        const params = {};
         let attempts = 0;
 
-        this._sampleAll(this.template.params, params);
+        const paramsFactory = new ParameterFactory(this.rng)
+        const params = paramsFactory.sampleAll(this.template.params)
 
-        while (attempts++ < 10000 && !this.params) {
+        while (attempts++ < Task.MAX_GENERATION_ATTEMPTS && !this.params) {
             const failed = (this.template.constraints || []) //Checking for failed constrains
                 .filter(group => !this._checkConstraint(group, params));
 
@@ -37,7 +42,7 @@ export class Task {
             failed.forEach(g => g.params.forEach(p => toRegen.add(p)));
 
             for (const key of toRegen) { // Regenerating failed params
-                params[key] = this._sampleOne(this.template.params[key]);
+                params[key] = paramsFactory.sampleOne(this.template.params[key]);
             }
         }
         if (!this.params){
@@ -68,24 +73,6 @@ export class Task {
             answer: this.answer,
             params: this.params
         };
-    }
-
-    _sampleAll(defs, target) {
-        for (const [k, def] of Object.entries(defs)) {
-            target[k] = this._sampleOne(def);
-        }
-    }
-
-    _sampleOne(def) {
-        switch (def.type) {
-            case "int":
-            case "randint":
-                return this.rng.randint(def.min, def.max);
-            case "choice":
-                return this.rng.choice(def.values);
-            default:
-                throw new Error(`Unknown type: ${def.type}`);
-        }
     }
 
     _checkConstraint(group, params) {

@@ -3,7 +3,7 @@ export function pthL(x){
 }
 
 export function pmL(x){
-    return x === 0 ? '' : x > 0 ? '+' + x : x
+        return x == 0 ? '' : x > 0 ? '+' + x : x
 }
 
 export function mltL(x){

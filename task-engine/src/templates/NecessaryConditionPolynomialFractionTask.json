@@ -1,0 +1,23 @@
+{
+  "name": "necessary-cond-polynomial-frac-task",
+  "text": {
+    "en": "Examine the following series for convergence",
+    "ru": "Исследуйте следующий ряд на сходимость"
+  },
+  "latex": "\\displaystyle\\sum_{n=${n0}}^{\\infty}\\frac{${P}}{${Q}}",
+  "params": {
+    "n0": {"type": "int", "min": 1, "max": 3},
+    "P": {"type": "polynomial", "method": "roots", "degree": 2,
+      "roots":  {"count": 2, "min": -5, "max": 5, "allowRepeated": true},
+      "leadingCoeff": {"min": -5, "max": 5}, "renderForm": "factored"},
+    "Q": {"type": "polynomial", "method": "coeffs", "degree": 2,
+      "coeffs":  [{"min": -15, "max": 15}, {"min": -10, "max": 10}, {"min": -3, "max": 5}],
+      "renderForm": [{"spec": "standard", "weight":  7}, {"spec": "factored", "weight":  3}]}
+  },
+  "constraints": [
+    {
+      "params": ["P", "Q"],
+      "code": "P.degree >= Q.degree"
+    }
+  ]
+}
