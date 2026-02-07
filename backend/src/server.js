@@ -11,7 +11,7 @@ const app = express();
 const PORT = 3001;
 const execAsync = promisify(exec);
 
-TaskFactory.loadTemplates("task-engine/src/templates")
+await TaskFactory.loadTemplates("task-engine/src/templates")
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -32,7 +32,8 @@ app.post("/api/generate", (req, res) => {
                 type,
                 params: task.params,
                 text: task.text,
-                latex: task.renderQuestion()
+                latex: task.renderQuestion(),
+                answer: task.computeAnswer(),
             };
         });
 

@@ -354,7 +354,7 @@ function App() {
                                                     <div className="detail-group">
                                                         <h4 className="detail-label">{t('results.answer')}</h4>
                                                         <div className="detail-answer">
-                                                            {t('WIP')}
+                                                            {task.answer || t('WIP')}
                                                         </div>
                                                     </div>
                                                 </div>

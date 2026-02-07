@@ -1,6 +1,7 @@
 // task-engine/src/core/Task.js
 import {pmL, pthL, mltL} from "../utils/latexHelpers.js";
 import {ParameterFactory} from "./ParameterFactory.js";
+import {Fraction} from "../utils/Fraction.js";
 
 export class Task {
 
@@ -57,12 +58,19 @@ export class Task {
     }
 
     computeAnswer() {
-        if (!this.params) throw new Error("There are not generated params. Call generateParams() first");
-        if (!this.template.answer) { // Checking if template has function to evaluate answer
+        if (!this.params) throw new Error("Call generateParams() first");
+        if (!this.template.answer) {
             this.answer = null;
             return null;
         }
-        this.answer = this._evaluate("return " + this.template.answer, {Math, ...this.params});
+
+        const scope = {
+            Math,
+            ...this.params,
+            // Fraction class for exact arithmetic
+            Frac: Fraction
+        };
+        this.answer = this._evaluate("return " + this.template.answer, scope);
         return this.answer;
     }
 
