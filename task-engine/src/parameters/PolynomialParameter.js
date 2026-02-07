@@ -7,11 +7,11 @@ export class PolynomialParameter extends Parameter {
      * @param {Array<number>} coeffs - Coefficients [a₀, a₁, a₂, ...] for a₀ + a₁x + a₂x² + ...
      * @param {string} renderForm - How to render: 'standard' or 'factored'
      */
-    constructor(coeffs, renderForm, roots = [], leadingCoeff = undefined) {
+    constructor(degree, coeffs, renderForm, roots = [], leadingCoeff = undefined) {
         super();
         this.coeffs = coeffs;
         this.renderForm = renderForm;
-        this.degree = coeffs.length - 1;
+        this.degree = degree;
         this.roots = roots;
         this.leadingCoeff = leadingCoeff;
 
@@ -24,19 +24,34 @@ export class PolynomialParameter extends Parameter {
      * @returns {PolynomialParameter}
      */
     static sampleByCoeffs(def, rng) {
-        // Generate each coefficient from its range
-        const coeffs = def.coeffs.map(spec => rng.randint(spec.min, spec.max));
+        const degree = Parameter.resolveSpec(def.degree, rng);
+
+        let coeffs;
+
+        // Check if coeffs is a single spec (same range for all coefficients)
+        if (def.coeffs.min !== undefined && def.coeffs.max !== undefined) {
+            // Single spec for all coefficients
+            coeffs = [];
+            for (let i = 0; i <= degree; i++) {
+                coeffs.push(rng.randint(def.coeffs.min, def.coeffs.max));
+            }
+        } else {
+            // Array of individual specs for each coefficient
+            coeffs = def.coeffs.map(spec => rng.randint(spec.min, spec.max));
+        }
 
         // Ensure leading coefficient (last element) is not zero
-        const lastIndex = def.degree;
+        const lastIndex = coeffs.length - 1;
+        const lastSpec = Array.isArray(def.coeffs) ? def.coeffs[lastIndex] : def.coeffs;
+
         while (coeffs[lastIndex] === 0) {
-            coeffs[lastIndex] = rng.randint(def.coeffs[lastIndex].min, def.coeffs[lastIndex].max);
+            coeffs[lastIndex] = rng.randint(lastSpec.min, lastSpec.max);
         }
 
         // Determine render form
         const renderForm = Parameter.resolveSpec(def.renderForm, rng);
 
-        return new PolynomialParameter(coeffs, renderForm);
+        return new PolynomialParameter(degree, coeffs, renderForm);
     }
 
     /**
@@ -70,12 +85,14 @@ export class PolynomialParameter extends Parameter {
         }
 
         // Expand (x - r₁)(x - r₂)... into coefficients
-        const coeffs = this.expandRoots(roots, leadingCoeff);
+        const coeffs = this._expandRoots(roots, leadingCoeff);
 
         // Determine render form
         const renderForm = Parameter.resolveSpec(def.renderForm, rng);
 
-        return new PolynomialParameter(coeffs, renderForm, roots, leadingCoeff);
+        const degree = Parameter.resolveSpec(def.degree, rng);
+
+        return new PolynomialParameter(degree, coeffs, renderForm, roots, leadingCoeff);
     }
 
 
@@ -86,7 +103,7 @@ export class PolynomialParameter extends Parameter {
      * @param {number} leadingCoeff - Leading coefficient
      * @returns {Array<number>} Coefficients [a₀, a₁, ..., aₙ]
      */
-    static expandRoots(roots, leadingCoeff) {
+    static _expandRoots(roots, leadingCoeff) {
         // Start with coefficients representing "1"
         let coeffs = [1];
 
