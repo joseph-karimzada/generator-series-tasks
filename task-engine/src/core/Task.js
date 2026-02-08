@@ -65,6 +65,7 @@ export class Task {
         }
 
         const scope = {
+            _lang: this.lang,
             Math,
             ...this.params,
             // Fraction class for exact arithmetic
