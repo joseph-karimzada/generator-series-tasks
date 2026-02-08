@@ -74,7 +74,7 @@ function App() {
             const res = await axios.post("http://localhost:3001/api/generate", {
                 seed,
                 order,
-                lang: i18n.language,
+                language: i18n.language,
             });
             setTasks(res.data.tasks);
         } catch (err) {
@@ -111,16 +111,16 @@ function App() {
             const response = await axios.post('http://localhost:3001/api/export', {
                 tasks,
                 seed,
-                includeAnswers
+                includeAnswers,
+                language: i18n.language,
             }, {
                 responseType: 'blob' // Important for file download
             });
-
             // Create download link
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.download = `sigma-lab-worksheet-${seed}.docx`;
+            link.download = includeAnswers ? `sigma-lab-worksheet-${seed}.zip` :`sigma-lab-worksheet-${seed}.docx`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
