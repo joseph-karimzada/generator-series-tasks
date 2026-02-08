@@ -32,5 +32,6 @@
       "params": ["a", "b"],
       "code": "abs(a-b)<=3"
     }
-  ]
+  ],
+  "answer": "(() => {const d = Math.abs(a - b); const commonNum = new Frac(c).div(new Frac(d)); let result = new Frac(0); for (let i = n0; i < d + n0; i++){result = result.add(commonNum.div(new Frac(i)))}; return result.toString();})()"
 }
