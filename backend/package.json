@@ -9,6 +9,6 @@
   },
   "private": true,
   "dependencies": {
-    "task-engine": "workspace:*"
+    "task-engine": "*"
   }
 }
