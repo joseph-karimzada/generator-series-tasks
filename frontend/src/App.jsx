@@ -24,6 +24,8 @@ function Latex({ expression }) {
 function App() {
     const { t, i18n } = useTranslation();
 
+    const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:3001";
+
     useDocumentTitle(t('page.title'))
 
     // Load saved state from localStorage
@@ -71,7 +73,7 @@ function App() {
                     order.push(type);
                 }
             });
-            const res = await axios.post("http://localhost:3001/api/generate", {
+            const res = await axios.post(`${API_BASE}/api/generate`, {
                 seed,
                 order,
                 language: i18n.language,
@@ -108,7 +110,7 @@ function App() {
 
     const handleExportWord = async (includeAnswers) => {
         try {
-            const response = await axios.post('http://localhost:3001/api/export', {
+            const response = await axios.post(`${API_BASE}/api/export`, {
                 tasks,
                 seed,
                 includeAnswers,
